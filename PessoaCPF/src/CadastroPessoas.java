@@ -1,25 +1,60 @@
-import java.util.Map;
-import java.util.HashMap;
-
+import java.util.ArrayList;
+import java.util.Collections;
 public class CadastroPessoas {
-    private Map<String,CPF> pessoas = new HashMap<>();
+    private ArrayList<Pessoa> colecao = new ArrayList<>();
 
-    public Map<String, CPF> getPessoas() {
-        return pessoas;
+    public int getNumeroDePessoas(){
+        return colecao.size();
     }
-    public boolean addPessoa(String nome, String numeroCpf) {
-        CPF cpf = new CPF(numeroCpf);
-        Pessoa pessoa = new Pessoa(nome, cpf);
+    public boolean addPessoa(String texto, CPF cpf){
+        if(texto == null || cpf == null)
+            return false;
 
-        if (cpf.valido()) {
-            pessoas.put(pessoa.getNome(), pessoa.getCPF());
-            return true;
-        } else {
-            throw new IllegalArgumentException("CPF inválido: " + numeroCpf);
+        colecao.add(new Pessoa(texto, cpf));
+        return true;
+    }
+    public boolean remove(String texto, CPF cpf) {
+        if(!colecao.contains(new Pessoa(texto, cpf)))
+            return false;
+
+        colecao.remove(new Pessoa(texto, cpf));
+        return true;
+    }
+    public int recuperaIndice(String texto, CPF cpf){
+        return procuraPorCpf(cpf.getCPF(), colecao);
+    }
+    public static int procuraPorCpf(String cpf, ArrayList<Pessoa> colecao){
+        for(Pessoa pessoa : colecao){
+            if(pessoa.getCPF().getCPF().equals(cpf)) {
+                return colecao.indexOf(pessoa);
+            }
         }
+        return -1;
+    }
+    public void ordena(){
+        ArrayList<String> cpfs = new ArrayList<>();
+        for (Pessoa pessoa : colecao) {
+            cpfs.add(pessoa.getCPF().getCPF());
+        }
+
+        Collections.sort(cpfs);
+        ArrayList<Pessoa> colecaoOrdenada = new ArrayList<>();
+        for(String cpf : cpfs){
+            colecaoOrdenada.add(colecao.get(procuraPorCpf(cpf, colecao)));
+        }
+        colecao = colecaoOrdenada;
+    }
+    public boolean contem(String texto, CPF cpf){
+        return colecao.contains(new Pessoa(texto, cpf));
+    }
+    @Override
+    public String toString(){
+
+        String stringFinal = "";
+        for(Pessoa pessoa : colecao){
+            stringFinal+=pessoa.getNome()+" "+pessoa.getCPF().getCPF()+"\n";
+        }
+        return stringFinal;
     }
 
 }
-
-
-
