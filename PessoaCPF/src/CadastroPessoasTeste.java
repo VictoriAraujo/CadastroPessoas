@@ -43,10 +43,10 @@ public class CadastroPessoasTeste {
     @Test
     public void testRecuperaIndice() {
         CPF cpf2 = new CPF("222.456.789-10");
-        cadastro.addPessoa("João da Silva", cpf);
+        cadastro.addPessoa("Miguel Lira", cpf);
         cadastro.addPessoa("Victoria", cpf2);
 
-        assertEquals(0, cadastro.recuperaIndice("João da Silva", cpf));
+        assertEquals(0, cadastro.recuperaIndice("Miguel Lira", cpf));
         assertEquals(1, cadastro.recuperaIndice("Victoria", cpf2));
     }
 
@@ -65,12 +65,12 @@ public class CadastroPessoasTeste {
         CPF cpf3 = new CPF("111.222.333-44");
 
         cadastro.addPessoa("Maria Araujo", cpf2);
-        cadastro.addPessoa("João da Silva", cpf1);
+        cadastro.addPessoa("Miguel Lira", cpf1);
         cadastro.addPessoa("Pedro Oliveira", cpf3);
         // Ordena por CPF
         cadastro.ordena();
-        String expected = "Pedro Oliveira 111.222.333-44\nJoão da Silva 123.456.789-00\nMaria Araujo 987.654.321-00\n";
-        assertEquals(expected, cadastro.toString());
+        String esperada = "Pedro Oliveira 111.222.333-44\nMiguel Lira 123.456.789-00\nMaria Araujo 987.654.321-00\n";
+        assertEquals(esperada, cadastro.toString());
     }
     @Test
     public void testToString() {
